@@ -1,0 +1,190 @@
+Here are a couple of examples with captions:
+\begin{algorithm}[H]
+    \caption{Finding the convex hull of a set of points $p_0,p_1,\cdots,p_{k-1}$}
+    \label{alg:convex-hull}
+    \begin{algorithmic}[1]
+        \Procedure{FindHull}{{\bf Point\ }$P[\,]$,\,{\bf int\ }$k$}
+        \State Sort $P$ by $x$-coordinate
+        \Comment\textcolor{blue}{Break ties in favor of smaller $y$-coordinate}
+        \Statex
+        \State $lower[0]\gets p_0$
+        \State $t\gets0$
+        \For{$i\gets1${\bf\ to\ }$k-1$}
+        \While{$t>0${\bf\ and\ }$lower[t-1]\to lower[t]\to p_i$ {\bf does not
+        turn left}}
+        \State $t\gets t-1$
+        \EndWhile
+        \Statex
+        \State $t\gets t+1$
+        \State $lower[t]\gets p_i$
+        \EndFor
+        \Statex
+        \State $upper[0]\gets p_{k-1}$
+        \State $u\gets0$
+        \For{$i\gets k-2${\bf\ downto\ }$0$}
+        \While{$u>0${\bf\ and\ }$upper[u-1]\to upper[u]\to p_i$ {\bf does not
+        turn left}}
+        \State $u\gets u-1$
+        \EndWhile
+        \Statex
+        \State $u\gets u+1$
+        \State $upper[u]\gets p_i$
+        \EndFor
+        \Statex
+        \State {\bf return\ }$lower[0], lower[1],\cdots,lower[t-1],upper[0],
+        upper[1],\cdots,upper[u-1]$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+    \caption{Determining if point $P$ is inside or on a convex hull $h_0,h_1,\cdots,
+    h_{k-1}$}
+    \label{alg:inside-convex-hull}
+    \begin{algorithmic}[1]
+        \Procedure{IsInsideHull}{{\bf Point\ }$P$,\,{\bf Point\ }$H[\,]$,\,
+        {\bf int\ }$k$}
+        \For{$i\gets0${\bf\ to\ }$k-1$}
+        \State $j\gets(i+1)\bmod k$
+        \If{$P\to h_i\to h_j$ {\bf turns right}}
+        \State {\bf return\ }$false$
+        \EndIf
+        \EndFor
+        \Statex
+        \State {\bf return\ }$true$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+Here are a couple of examples that include preconditions and postconditions:
+
+\begin{algorithm}[H]
+    \vskip6pt
+    \begin{labeling}{Postconditions}
+        \item [\bf Preconditions] $items$ is an array with $n$ elements
+        \item [\bf Postconditions] $e$ is a random element from $items$, $e$ has been
+        removed from $items$, $n$ is decremented
+    \end{labeling}
+
+    \caption{Sampling without replacement}\label{alg:sample-no-replacement}
+    \begin{algorithmic}[1]
+        \Procedure{SampleNoReplacement}{$items$,$n$}
+        \State $i\gets$ {\sc Rand} $\bmod\ n$
+        \Comment\textcolor{blue}{Select random position in the list}
+        \State $e\gets items[i]$
+        \Comment\textcolor{blue}{Remember the selected item}
+        \State $n\gets n-1$
+        \Comment\textcolor{blue}{Decrement $n$}
+        \State $items[i]\gets items[n]$
+        \Comment\textcolor{blue}{Move last item into selected position}
+        \Statex
+        \State {\bf return} $e$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+\vskip12pt
+
+\begin{algorithm}[H]
+    \vskip6pt
+    \begin{labeling}{Postconditions}
+        \item [\bf Preconditions] $elements$ and $rank$ are a disjoint set with
+        elements $a$ and $b$
+        \item [\bf Postconditions] The disjoint sets containing $a$ and $b$ have been
+        combined into one set
+    \end{labeling}
+
+    \caption{Disjoint set union}\label{alg:ds-union}
+    \begin{algorithmic}[1]
+        \Procedure{DisjointSetUnion}{$elements$,$rank$,$a$,$b$}
+        \State $a\gets$ {\sc DisjointSetFind}$(a)$
+        \Comment\textcolor{blue}{Get representatives for $a$ and $b$}
+        \State $b\gets$ {\sc DisjointSetFind}$(b)$
+        \Statex
+        \If{$a\ne b$}
+        \Comment\textcolor{blue}{Only union if $a$ and $b$ are in different sets}
+        \If{$rank[a]<rank[b]$}
+        \Comment\textcolor{blue}{Set with lower rank merged into set with larger
+        rank}
+        \State $elements[a]\gets b$
+        \Else
+        \If{$rank[a]=rank[b]$}
+        \Comment\textcolor{blue}{In case of tie, increment one set's rank}
+        \State $rank[a]\gets rank[a]+1$
+        \EndIf
+        \State $elements[b]\gets a$
+        \EndIf
+        \EndIf
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+\vskip12pt
+
+\begin{algorithm}[H]
+    \vskip6pt
+    \begin{labeling}{Postconditions}
+        \item [\bf Preconditions] $elements$ and $rank$ are a disjoint set with
+        element $a$
+        \item [\bf Postconditions] Returns the representative for the set containing
+        $a$
+    \end{labeling}
+
+    \caption{Disjoint set find}\label{alg:ds-find}
+    \begin{algorithmic}[1]
+        \Procedure{DisjointSetFind}{$elements$,$rank$,$a$}
+        \If{$elements[a]\ne a$}
+        \Comment\textcolor{blue}{Connect $a$ directly to top of intree}
+        \State $elements[a]\gets$ {\sc DisjointSetFind}$(elements[a])$
+        \EndIf
+        \State {\bf return} $elements[a]$
+        \Comment\textcolor{blue}{Return top of intree}
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+\vskip12pt
+
+Add this line to create a "do-while" loop:
+
+\algdef{SE}[DOWHILE]{Do}{doWhile}{\algorithmicdo}[1]{\algorithmicwhile\ #1}%
+
+Here's an example that uses the do loop:
+
+\begin{algorithm}[H]
+    \vskip6pt
+    \begin{labeling}{Postconditions}
+        \item [\bf Preconditions] None
+        \item [\bf Postconditions] $maze$ contains a single-entry, single-exit maze
+        with no loops
+    \end{labeling}
+
+    \caption{Generate a maze}
+    \begin{algorithmic}[1]
+        \Procedure{GenerateMaze}{$n_R$,$n_C$}
+        \State $i\gets0$
+        \For{$r\gets0$ {\bf to} $n_R-1$}
+        \For{$c\gets0$ {\bf to} $n_C-1$}
+        \State $maze[r][c]\gets15$
+        \EndFor
+        \EndFor
+        \State Initialize disjoint set object \ttbf{ds} with $n_R\cdot n_C$ elements
+        \State Initialize sampler object \ttbf{sampler} with $4\cdot nR\cdot n_C$
+        elements
+        \Statex
+        \State $i\gets0$
+        \While{$i<n_R\cdot n_C-1$}
+        \Do
+        \Do
+        \State $e\gets sampler.getSample(\,)$
+        \doWhile{$e$ references an exterior or nonexistent wall}
+        \State $(r_1,c_1,dir_1)\gets decodeCell(e)$
+        \State Set $(r_2,c_2)$ to cell adjacent to $(r_1,c_1)$ in given
+        direction
+        \doWhile{{\sc DisjointSetFind}$(r_1) =$ {\sc DisjointSetFind}$(r_2)$}
+        \Statex
+        \State {\sc DisjointSetUnion}$(r_1,r_2)$
+        \State $i\gets i+1$
+        \Statex
+        \State Remove wall between $(r_1,c_1)$ and $(r_2,c_2)$
+        \EndWhile
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
