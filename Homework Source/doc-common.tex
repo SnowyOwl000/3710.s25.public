@@ -1,0 +1,240 @@
+% common preamble
+
+%
+% this is deprecated, may be removed
+%
+%\ifshadedsectiontitles
+%\usepackage[explicit]{titlesec}
+%\fi
+
+% colors
+\usepackage{color}
+% a better margin than the default article
+\usepackage[margin=1in]{geometry}
+% for printing listings
+\usepackage{listings}
+% for algorithms
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+% gotta have tikz
+\usepackage{tikz}
+
+\usetikzlibrary{shapes}
+\usetikzlibrary{arrows}
+\usetikzlibrary{calc,positioning}
+
+%\usepackage{scrextend}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+\usepackage{arev,tgadventor,tgcursor}
+%\usepackage{tex-gyre-math,tgadventor,tgcursor}
+\usepackage[semibold]{sourcecodepro}
+% use TeX Gyre Adventor as the default font
+\renewcommand{\rmdefault}{qag}
+% use TeX Gyre Cursor as the tt font
+%\renewcommand*{\ttdefault}{qcr}
+% sans serif is the base font
+\renewcommand*\familydefault{\sfdefault}
+
+% accented letters use a single glyph
+\usepackage[T1]{fontenc}
+% AMS math symbols and formatting
+\usepackage{amssymb,amsmath}
+\usepackage{amsthm}
+
+% formatting for problem numbers
+\makeatletter
+\newcommand{\problemnumber}[5]{\ifx\@empty#3\@empty%
+\ifx\@empty#2\@empty%
+\,[#1]\\%
+\else
+\,[#1#4#2]\\%
+\fi\else%
+\,[#1#4#2#5#3]\\%
+\fi%
+}
+\makeatother
+
+% bold tt font
+\newcommand\ttbf[1]{\texttt{\textbf{\large #1}}}
+
+%
+% deprecated
+%
+% macro for section titles. creates a gray box across the page and displays
+% the section title in Large size with emphasis. Skips 12pt before and 3pt after
+%\newcommand{\sectiontitle}[1]{\vskip12pt\par\noindent\colorbox{gray!40}
+%{\parbox{\dimexpr\textwidth\relax}{\Large \emph{#1}}}\vskip3pt\par
+%\noindent}
+
+% fancier section titles, shaded for contrast
+\ifshadedsectiontitles
+
+%
+% this is the old method for setting up shaded section titles, using the
+% titlesec package. The problem with this is that at this time it does not
+% support accessible headings.
+%
+%\titleformat{\section}[block]{\normalfont\Large}{}{0pt}{\colorbox{gray!40}
+%{\parbox{\dimexpr\textwidth\relax}{\emph{#1}}}}[\vskip-6pt]
+
+%
+% shaded section box kludge, draw the box, use kerning to go back to left edge
+% and then draw the text. Phantom text is to get vertical box size.
+%
+\newcommand\sectionbox[1]{\colorbox{gray!40}{\parbox{\dimexpr\textwidth\relax}{%
+\phantom{ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz}}}\kern-\textwidth #1}
+
+%
+% reset the definition of \section to set size and shape of text and invoke
+% \sectionbox at the end.
+%
+% For all of this to work with accessibility features, the section title must
+% be the last tokens generated.
+%
+\newcounter{chapter}
+\newcounter{altchapter}
+\makeatletter
+\newcommand\chapter{
+                      \secdef\@chapter\@schapter
+                   }
+\def\@chapter[#1]#2{
+                      \normalsize \bf #2
+                    }
+\iflab
+\renewcommand\chapter{\@startsection {chapter}{0}{\z@}%
+									{0pt}%{-3.5ex \@plus -1ex \@minus -.2ex}%
+									{0pt}%{2.3ex \@plus.2ex}%
+                                   	{\normalfont\Large\@gobble}}
+\else
+\renewcommand\chapter{\@startsection {chapter}{0}{\z@}%
+									{0pt}%{-3.5ex \@plus -1ex \@minus -.2ex}%
+									{0pt}%{2.3ex \@plus.2ex}%
+                                   	{\normalfont\Huge\@gobble}}
+\fi
+   									\renewcommand\section{\@startsection {section}{1}{\z@}%
+                                   {-3.5ex \@plus -1ex \@minus -.2ex}%
+                                   {2.3ex \@plus.2ex}%
+                                   {\normalfont\Large\itshape\sectionbox}}
+\renewcommand\subsection{\@startsection {subsection}{2}{\z@}%
+                                   {-3.3ex \@plus -1ex \@minus -.2ex}%
+                                   {2.1ex \@plus.2ex}%
+                                   {\normalfont\Large$\triangleright\quad$\itshape}}
+\makeatother
+
+%
+% the last part of the kludge adds some negative vertical spacing to bring the
+% following text a bit closer to the section box
+%
+% also centers chapter titles
+%
+\iflab
+\relax
+\else
+\let\oldchapter\chapter
+\renewcommand{\chapter}[1]{\oldchapter{\centerline{#1}}\phantom{X}\\}
+\fi
+\let\oldsection\section
+\renewcommand{\section}[1]{\oldsection{#1}\vskip-6pt}
+\let\oldsubsection\subsection
+\renewcommand{\subsection}[1]{\oldsubsection{#1}\vskip-6pt}
+
+\fi
+
+\newlength\tindent
+\setlength{\tindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
+
+\newcommand\parend{\par\vskip12pt\noindent}
+
+% listings settings
+\lstset{
+language=C++,
+basicstyle=\ttfamily,
+    frame=tb, % draw a frame at the top and bottom of the code block
+numberstyle=\footnotesize\color[rgb]{0.205, 0.142, 0.73},
+commentstyle=\color[rgb]{0.026,0.4,0.095},
+        stringstyle=\color[rgb]{0.627,0.126,0.941},
+  tabsize=4, % tab space width
+  %  showstringspaces=false, % don't mark spaces in strings
+    numbers=left, % display line numbers on the left
+ %   commentstyle=\color{green}, % comment color
+    keywordstyle=\color{blue}, % keyword color
+ %   stringstyle=\color{red} % string color
+%mathescape=true,
+}
+
+%
+% this kludge comes from Ulrike Fischer from the tagged LaTeX project.
+%
+% it defines a taglstlisting environment
+%
+
+%\makeatletter
+%\ExplSyntaxOn
+%\DeclareInstance{blockenv}{lstlisting}{display}
+%{
+%  env-name       = lstlisting,
+%  tag-name       = verbatim,
+%  tag-class      = ,
+%  tagging-recipe = standard,
+%  inner-level-counter  = ,
+%  level-increase = false,
+%  setup-code     = ,
+%  block-instance = displayblock ,
+%  inner-instance = ,
+%  final-code     =  \tl_set:Nn \l__tag_para_main_tag_tl {codeline}\tagtool{paratag=Code},
+%}
+%\ExplSyntaxOff
+%\lstnewenvironment{taglstlisting}[2][]{%
+%     \UseInstance{blockenv}{lstlisting} {}
+%     \lst@TestEOLChar{#2}%
+%     \lstset{#1}%
+%     \csname\@lst @SetFirstNumber\endcsname%
+%   }{%
+%     \@nobreakfalse
+%     \csname\@lst @SaveFirstNumber\endcsname%
+%     \endblockenv
+%   }
+%\makeatother
+
+%
+% these may be deprecated, I don't think I use any of them
+%
+
+% common big Theta values
+%\newcommand\consttime{$\Theta\left(1\right)$}
+%\newcommand\lgntime{$\Theta\left(\lg n\right)$}
+%\newcommand\ntime{$\Theta\left(n\right)$}
+%\newcommand\nlgntime{$\Theta\left(n\lg n\right)$}
+%\newcommand\nsquaredtime{$\Theta\left(n^2\right)$}
+
+%\newcommand\titlenoduedate{%
+%\thispagestyle{empty}%
+%\cfoot{\thepage\ of \pageref{LastPage}}%
+%\lhead{\coursetitle}%
+%\chead{\shorttitle}%
+%\rhead{\shortcourseterm}%
+%\noindent{\Huge\coursetitle\\[3pt]\catalognum\\[3pt]}%
+%\emph{\large\courseterm}\\[3pt]%
+%}
+
+%\newcommand\titlewithduedate{%
+%\thispagestyle{empty}%
+%\cfoot{\thepage\ of \pageref{LastPage}}%
+%\lhead{\coursetitle}%
+%\chead{\shorttitle}%
+%\rhead{\shortcourseterm}%
+%\noindent{\Huge\coursetitle\\[3pt]\catalognum\\[3pt]}%
+%\emph{\large\courseterm}\\[3pt]%
+%\noindent\makebox[\linewidth]{\rule{\linewidth}{0.4pt}}\\
+%{\large\doctitle}\\
+%\emph{\duedate}\\
+%}
+
+\pagestyle{fancy}
+
+% for hypersetup
+\usepackage{hyperref}
