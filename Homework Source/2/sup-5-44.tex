@@ -1,0 +1,35 @@
+\item\problemnumber{5}{Supplemental}{44}{-}{-}
+A \emph{unit} or \emph{Egyptian fraction} is a fraction of the form $1/n$,
+where $n$ is a positive integer. In this exercise, we will use strong
+induction to show that a greedy algorithm can be used to express every rational
+number $p/q$ with $0 < p/q < 1$ as the sum of distinct unit fractions. At each
+step of the algorithm, we find the smallest positive integer $n$ such that
+$1/n$ can be added to the sum without exceeding $p/q$. For example, to express
+$5/7$ we first start the sum with $1/2$. Because $5/7 - 1/2 = 3/14$ we add
+$1/5$ to the sum because $5$ is the smallest positive integer $k$ such that
+$1/k < 3/14$. Because $3/14 - 1/5 = 1/70$, the algorithm terminates, showing
+that $5/7 = 1/2 + 1/5 + 1/70$.\parend
+Let $T(p)$ be the statement that this algorithm terminates for all rational
+numbers $p/q$ with $0 < p/q < 1$. We will prove that the algorithm always
+terminates by showing that $T(p)$ holds for all positive integers $p$.
+\begin{list}{\textbf{\alph{enumii}.}}{\usecounter{enumii}}
+\item Show that the basis step $T(1)$ holds.
+\item Suppose that $T(k)$ holds for positive integers $k$ with $k < p$. That
+is, assume that the algorithm terminates for all rational numbers $k/r$, where
+$1 \le k < p$. Show that if we start with $p/q$ and the fraction $1/n$ is
+selected in the first step of the algorithm, then $p/q = p'/q' + 1/n$, where
+$p' = np - q$ and $q' = nq$. After considering the case where $p/q = 1/n$, use
+the inductive hypothesis to show that the greedy algorithm terminates when it
+begins with $p'/q'$ and complete the inductive step.
+\end{list}
+\vskip12pt
+\ifanswers
+\textcolor{blue}{
+\textbf{Answer:}\\[6pt]
+\begin{list}{\textbf{\alph{enumii}.}}{\usecounter{enumii}}
+\item Part a answer goes here
+\item Part b answer goes here
+\end{list}
+}
+\newpage
+\fi

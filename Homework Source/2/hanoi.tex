@@ -1,0 +1,113 @@
+\item\problemnumber{}{}{Hanoi}{}{}
+The \emph{Towers of Hanoi} puzzle is a game creaded in the late 1800s by
+mathematician \'{E}douard Lucas. The game consists of three pegs, with a set
+of disks on one peg, arranged from largest disk on the bottom to smallest disk
+at the top.\parend
+
+The goal of the game is to move all of the disks from one peg to another,
+following two rules:
+\begin{itemize}
+  \item You may only move the top disk from one peg to another
+  \item You may never place a larger disk on top of a smaller disk
+\end{itemize}
+
+There is a simple recursive algorithm for solving the puzzle, given in
+Algorithm~\ref{alg:rhanoi}.
+
+\begin{algorithm}[H]
+  \vskip6pt
+%//  \begin{labeling}{Postconditions}
+%//    \item [\bf Preconditions] Source peg $s$ has at least $n$ disks, temporary
+%//    peg $t$ and destination peg $d$ have zero or more disks
+%//    \item [\bf Postconditions] The top $n$ disks on peg $s$ have been moved to
+%//    disk $d$; no other disks are moved
+%//  \end{labeling}
+
+  \caption{Recursive solution for Towers of Hanoi}\label{alg:rhanoi}
+  \begin{algorithmic}[1]
+    \Require{Source peg $s$ has at least $n$ disks, temporary peg $t$ and
+    destination peg $d$ have zero or more disks}
+  \Ensure{The top $n$ disks on peg $s$ have been moved to disk $d$; no other
+    disks are moved}
+    \Statex
+    \Procedure{RecursiveHanoi}{$n,s,d,t$}
+      \If{$n>0$}
+        \State {\sc RecursiveHanoi}$(n-1,s,t,d)$
+        \Comment\textcolor{blue}{Move $n-1$ disks to temporary peg}
+        \State Move top disk from peg $s$ to peg $d$
+        \Comment\textcolor{blue}{Move bottom disk in stack of $n$}
+        \State {\sc RecursiveHanoi}$(n-1,t,d,s)$
+        \Comment\textcolor{blue}{Move $n-1$ disks from temporary peg}
+      \EndIf
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+There is also an interesting non-recursive solution as well. Given $n$ disks,
+let the smallest disk be designated $d_0$ and the largest disk be $d_{n-1}$.
+Label the pegs $p_0$, $p_1$ and $p_2$. Every time the largest disk moves (which
+is once), it moves from peg $p_i$ to peg $p_{(i-1)\bmod 3}$. The second-largest
+disk, when it moves, always moves from peg $p_i$ to peg $p_{(i+1)\bmod 3}$.
+Each disk, when it moves, always moves in the opposite direction to the next
+larger disk.\parend
+Selecting the disk to move at each step is based on counting in binary. Count
+from $1$ to $2^n-1$. At step $j$ of the counting, let $j=(b_{n-1}n_{n-2}\cdots
+b_1b_0)_2$ and let $k$ be the smallest integer with $b_k=1$. Move disk $k$ in
+the direction it is always supposed to move.\parend
+
+The algorithm for this is given in Algorithm~\ref{alg:ihanoi}.
+
+\begin{algorithm}[H]
+  \vskip6pt
+  %\begin{labeling}{Postconditions}
+  %  \item [\bf Preconditions] Source peg $p_0$ has $n$ disks, temporary
+  %  peg $p_1$ and destination peg $p_2$ have zero disks
+  %  \item [\bf Postconditions] Source peg $p_0$ and temporary disk $p_1$ have
+  %  zero disks, destination peg $p_2$ has $n$ disks
+  %\end{labeling}
+
+  \caption{Iterative solution for Towers of Hanoi}\label{alg:ihanoi}
+  \begin{algorithmic}[1]
+    \Require{Source peg $p_0$ has $n$ disks, temporary peg $p_1$ and destination
+      peg $p_2$ have zero disks}
+  \Ensure{Source peg $p_0$ and temporary disk $p_1$ have zero disks, destination
+    peg $p_2$ has $n$ disks}
+    \Statex
+    \Procedure{IterativeHanoi}{$n$}
+      \State $dir[n-1]\gets-1$
+      \Comment\textcolor{blue}{$dir[j]$ is the direction disk $j$ moves}
+      \State $loc[n-1]\gets0$
+      \Comment\textcolor{blue}{$loc[j]$ is the peg number holding disk $j$}
+      \For{$i\gets n-2{\bf\ downto\ }0$}
+        \State $dir[i]\gets-dir[i+1]$
+        \State $loc[i]\gets0$
+      \EndFor
+      \Statex
+      \For{$i\gets1{\bf\ to\ }2^n-1$}
+        \State Let $i=(b_{n-1}b_{n-2}\cdots b_1b_0)_2$
+        \Comment\textcolor{blue}{Binary representation of counter $i$}
+        \State Let $j$ be the smallest integer with $b_j=1$
+        \Statex
+        \State $start\gets loc[j]$
+        \State $end\gets (loc[j]+dir[j])\bmod3$
+        \State $loc[j]\gets end$
+        \Statex
+        \State Move disk $j$ from $peg_{start}$ to $peg_{end}$
+      \EndFor
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+\newpage
+Prove that {\sc IterativeHanoi} is correct.\parend
+\emph{Hints}\/:
+\begin{itemize}
+  \item Use weak induction on the number of disks.
+  \item What happens if you run this same algorithm, but switch the direction
+    each disk moves?
+\end{itemize}
+\ifanswers
+\textcolor{blue}{
+\textbf{Answer:}\\[6pt]
+Answer goes here
+}
+\newpage
+\fi

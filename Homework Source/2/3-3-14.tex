@@ -1,0 +1,38 @@
+\item\problemnumber{3}{3}{14}{-}{-}
+There is a more efficient algorithm (in terms of the number of multiplications
+and additions used) for evaluating polynomials than the conventional algorithm
+described in Exercise~3-3-13. It is called Horner's method. This pseudocode
+shows how to use this method to find the value of $a_nx^n+a_{n-1}x^{n-1}+\cdots
++a_1x+a_0$ at $x=c$.
+\begin{algorithm}[H]
+    \caption{Horner's method}
+    \begin{algorithmic}[1]
+        \Procedure{Horner}{$c,a_0,a_1,\ldots,a_n$}
+            \State $y\gets a_n$
+            \Statex
+            \For{$i\gets n-1{\bf\ downto\ }0$}
+                \State $y\gets y\cdot c+a_i$
+            \EndFor
+            \Statex
+            \State {\bf return\ }$y$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+\begin{list}{\textbf{\alph{enumii}.}}{\usecounter{enumii}}
+\item Evaluate $3x^2+x+1$ at $x=2$ by working through teach step of the
+    algorithm showing the values assigned at each assignment step.
+\item Exactly how many multiplications and additions are used by this algorithm
+    to evaluate a polynomial of degree $n$ at $x=c$? (Do not count additions
+    used to increment the loop variable.)
+\end{list}
+\vskip12pt
+\ifanswers
+\textcolor{blue}{
+\textbf{Answer:}\\[6pt]
+\begin{list}{\textbf{\alph{enumii}.}}{\usecounter{enumii}}
+\item Part a answer
+\item Part b answer
+\end{list}
+}
+\newpage
+\fi
