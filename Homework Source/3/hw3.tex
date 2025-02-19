@@ -1,0 +1,78 @@
+\DocumentMetadata{lang=en,pdfversion=2.0,pdfstandard=ua-2,testphase={phase-III,math}}
+\documentclass{article}
+
+\newif\ifshadedsectiontitles
+\shadedsectiontitlestrue
+\newif\iflab
+\labtrue
+
+\newcommand{\semester}{Spring}
+\newcommand{\cyear}{2025}
+\newcommand{\crn}{20779}
+\newcommand{\homeworknum}{3}
+\newcommand{\duedate}{Monday, March 10, 2025}
+
+\input{\doccommon}
+\algrenewcommand\algorithmicrequire{\textbf{Precondition:}}
+\algrenewcommand\algorithmicensure{\textbf{Postcondition:}}
+
+\setcounter{secnumdepth}{-1}
+
+\begin{document}
+
+\hypersetup{
+pdftitle={CSCI 3710 Homework 3},
+pdfauthor={Robert W. Kramer},
+pdfkeywords={CSCI 3710,Homework,Third},%
+}
+
+\input{\doccourse/3710.header.tex}
+
+\chead{Homework \homeworknum}
+
+\chapter{Homework \homeworknum}\ \\[3pt]
+\emph{Due date: \duedate}\\
+
+\section{Part I. 10 points each.}
+
+\begin{list}{\textbf{\arabic{enumi}}}{\usecounter{enumi}
+\setlength{\itemsep}{0.25in}}
+
+\input{\doccontent/R8/Ch04/sup-4-16.tex}
+
+\input{\doccontent/R8/Ch04/sup-4-20.tex}
+
+\input{\doccontent/R8/Ch04/sup-4-34.tex}
+
+\input{\doccontent/R8/Ch04/4-4-20.tex}
+
+\input{\doccontent/R8/Ch04/4-4-21-mod.tex}
+
+% 6-10
+\input{\doccontent/R8/Ch06/sup-6-10.tex}
+
+\newpage
+
+% 6-18
+\input{\doccontent/R8/Ch06/sup-6-18.tex}
+
+% 6-28
+\input{\doccontent/R8/Ch06/sup-6-28.tex}
+
+% 6-44
+\input{\doccontent/R8/Ch06/sup-6-44.tex}
+
+\section{Part II. 20 points each.}
+
+\input{\doccontent/R8/Ch04/4-4-14.tex}
+
+% 6-48 (part 2)
+\input{\doccontent/R8/Ch06/sup-6-48.tex}
+
+\newpage
+% 6-50 (part 2, do this before 48)
+\input{\doccontent/R8/Ch06/sup-6-50.tex}
+
+\end{list}
+
+\end{document}
